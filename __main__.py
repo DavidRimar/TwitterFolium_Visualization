@@ -26,7 +26,7 @@ def main():
 
     # GET tweets
     query_df = tweetCrawler.crawl_data_with_session(
-        BristolSet2FishNet, 8)
+        BristolSet2FishNet)
 
     # save it to csv
     # query_df.to_csv('data/bristol_sem.csv', sep=",")

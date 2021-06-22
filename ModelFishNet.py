@@ -23,11 +23,14 @@ class BristolFishnet(Base):
     temp_day_id = Column(Integer)
     tfidf_topwords = Column(JSON)
     tfidf_topwords2 = Column(JSON)
+    fishnet_geom_center = Column(Geometry('POINT'))
+    fishnet_geom_center_lon = Column(DOUBLE_PRECISION)
+    fishnet_geom_center_lat = Column(DOUBLE_PRECISION)
 
     # Constructor
 
     def __repr__(self):
-        return "<Tweet(spat_temp_id='{}', spat_temp_id_str='{}', fishnet_id={}, temp_day_id={}, tfidf_topwords={}, tfidf_topwords2={})>".format(self.spat_temp_id, self.spat_temp_id_str, self.fishnet_id, self.temp_day_id, self.tfidf_topwords, self.tfidf_topwords2)
+        return "<Tweet(spat_temp_id='{}', spat_temp_id_str='{}', fishnet_id={}, temp_day_id={}, tfidf_topwords={}, tfidf_topwords2={}, fishnet_geom_center={}, fishnet_geom_center_lon={}, fishnet_geom_center_lat={})>".format(self.spat_temp_id, self.spat_temp_id_str, self.fishnet_id, self.temp_day_id, self.tfidf_topwords, self.tfidf_topwords2, self.fishnet_geom_center, self.fishnet_geom_center_lon, self.fishnet_geom_center_lat)
 
     def as_dict(self):
 
@@ -36,6 +39,9 @@ class BristolFishnet(Base):
                    'fishnet_id': self.fishnet_id,
                    'temp_day_id': self.temp_day_id,
                    'tfidf_topwords': self.tfidf_topwords,
-                   'tfidf_topwords2': self.tfidf_topwords2}
+                   'tfidf_topwords2': self.tfidf_topwords2,
+                   'fishnet_geom_center': self.fishnet_geom_center,
+                   'fishnet_geom_center_lon': self.fishnet_geom_center_lon,
+                   'fishnet_geom_center_lat': self.fishnet_geom_center_lat}
 
         return as_dict
