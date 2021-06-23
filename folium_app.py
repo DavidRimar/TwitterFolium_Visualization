@@ -20,7 +20,7 @@ def get_word_string(dictionary):
         display_string += word
         display_string += "\n"
 
-    #a_list = list(a_view)
+    # a_list = list(a_view)
     return display_string
 
 
@@ -37,7 +37,8 @@ print(query_df.head(10))
 # -0.023559, 37.9061928
 center = [53.890000, -3.711111]  # latitude, longitude
 
-map_uk = folium.Map(location=center, zoom_start=6)
+map_uk = folium.Map(location=center, zoom_start=6,
+                    control_scale=True)
 
 lower_left = [49.97, -7.30]  # lon: -7.30, lat: 49.97
 upper_right = [60.95, 2.35]  # lon: 2.30, lat: 59.145
@@ -54,16 +55,50 @@ for i, geo_json in enumerate(grid):
     color = plt.cm.Reds(i / len(grid))
     color = mpl.colors.to_hex(color)
 
-    gj = folium.GeoJson(geo_json,
-                        style_function=lambda feature, color=color: {
+    """
+    style_function=lambda feature, color=color: {
                             'fillColor': color,
                             'color': "black",
                             'weight': 2,
                             'dashArray': '5, 5',
-                            'fillOpacity': 0.01,
+                            'fillOpacity': 0.99,
+                            # Radius in metres
+                        },
+                        marker=folium.Marker(location=gj_loc,
+                                                icon=folium.DivIcon(
+                                                    icon_size=(90, 90),
+                                                    class_name="gj_class",
+                                                    html=f'''<div style="font-size: 1.1em">{i}</div>''')
+                                                )
+    """
+    gj_loc = geo_json['properties']['center']
+    print("gj_loc:", gj_loc)
+    print(type(gj_loc))
+
+    gj = folium.GeoJson(geo_json,
+                        style_function=lambda feature, color=color: {
+                            'fillColor': color,
+                            'color': "blue",
+                            'weight': 2,
+                            'dashArray': '1, 1',
+                            'fillOpacity': 0.01
+                            # Radius in metres
                         })
-    #popup = folium.Popup("example popup {}".format(i))
-    # gj.add_child(popup)
+
+    # MARKER
+    marker = folium.Marker(location=gj_loc,
+                           icon=folium.DivIcon(
+                               class_name="geojson_marker",
+                               html=f'''<div style="font-size: 13pt; align:center">{i}ASSD</div>''')
+                           )
+
+    gj.add_child(marker)
+
+    # POPUP
+    """
+    popup = folium.Popup("example popup {}".format(i))
+    gj.add_child(popup)
+    """
 
     map_uk.add_child(gj)
 
@@ -93,11 +128,12 @@ for index, row in first_day_df.iterrows():
         display_string = get_word_string(words)
 
         # ADD TEXT
+        """
         folium.Marker(location=[row_lat, row_lon],
                       icon=folium.DivIcon(
-            icon_size=(90, 90),
-            html=f'''<div style="font-size: 1.1em">{display_string}</div>''')
+            class_name="geojson_marker",
+            html=f'''<div style="font-size: 13px">{display_string}</div>''')
         ).add_to(map_uk)
-
+        """
 # save map to html file
-map_uk.save('index3.html')
+map_uk.save('index4.html')

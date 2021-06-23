@@ -37,6 +37,8 @@ def get_geojson_grid(upper_right, lower_left, h=5, v=11):
             upper_right = [lon + lon_stride, lat + lat_stride]
             lower_right = [lon + lon_stride, lat]
             lower_left = [lon, lat]
+            # center
+            center = [lat + (lat_stride/2), lon + (lon_stride/2)]
 
             # Define json coordinates for polygon
             coordinates = [
@@ -50,7 +52,8 @@ def get_geojson_grid(upper_right, lower_left, h=5, v=11):
             geo_json = {"type": "FeatureCollection",
                         "properties": {
                             "lower_left": lower_left,
-                            "upper_right": upper_right
+                            "upper_right": upper_right,
+                            "center": center
                         },
                         "features": []}
 

@@ -1,0 +1,7 @@
+.geojson_marker {
+    stroke-width: 8%;
+    stroke: black;
+    border-color: yellow;
+    border-style: solid;
+    width: 10rem !important;
+}
