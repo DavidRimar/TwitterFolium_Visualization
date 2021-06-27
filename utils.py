@@ -1,4 +1,18 @@
 import numpy as np
+import pandas as pd
+
+
+def get_word_string(dictionary):
+
+    words = dictionary.keys()
+    display_string = ""
+    for word in words:
+
+        display_string += word
+        display_string += "\n\n"
+
+    # a_list = list(a_view)
+    return display_string
 
 
 def get_geojson_grid(upper_right, lower_left, h=5, v=11):
@@ -70,3 +84,67 @@ def get_geojson_grid(upper_right, lower_left, h=5, v=11):
             all_boxes.append(geo_json)
 
     return all_boxes
+
+
+def create_geojson_words_circle(df):
+
+    features = []
+
+    for _, row in df.iterrows():
+        feature = {
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [row['fishnet_geom_center_lon'], row['fishnet_geom_center_lat']]
+            },
+            'properties': {
+                'time': '1999-09-09 12:00:00',
+                'style': {'color': ''},
+                'icon': 'circle',
+                'iconstyle': {
+                    'fillColor': 'red',
+                    'fillOpacity': 0.8,
+                    'stroke': 'true',
+                    'radius': 5
+                },
+                'label': 'eee'
+            }
+        }
+
+        # add feature to features
+        features.append(feature)
+
+    return features
+
+
+def create_geojson_words_markers(df):
+
+    features = []
+
+    for _, row in df.iterrows():
+
+        words = get_word_string(row['tfidf_topwords'])
+
+        feature = {
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [row['fishnet_geom_center_lon'], row['fishnet_geom_center_lat']]
+            },
+            'properties': {
+                # pd.to_datetime(row['day'], unit='h').__str__(),
+                'time': '1999-09-09 12:00:00',
+                'style': {'color': 'red'},
+                'icon': 'DivIcon',
+                'iconstyle': {
+                    'icon_size': (30, 20),
+                    'html': f'''<div style="font-size: 90%; align:center">{words}</div>'''
+                }
+
+            }
+        }
+
+        # add feature to features
+        features.append(feature)
+
+    return features

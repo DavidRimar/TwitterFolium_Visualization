@@ -18,7 +18,7 @@ def get_word_string(dictionary):
     for word in words:
 
         display_string += word
-        display_string += "\n"
+        display_string += "\n\n"
 
     # a_list = list(a_view)
     return display_string
@@ -72,8 +72,8 @@ for i, geo_json in enumerate(grid):
                                                 )
     """
     gj_loc = geo_json['properties']['center']
-    print("gj_loc:", gj_loc)
-    print(type(gj_loc))
+    #print("gj_loc:", gj_loc)
+    # print(type(gj_loc))
 
     gj = folium.GeoJson(geo_json,
                         style_function=lambda feature, color=color: {
@@ -85,14 +85,31 @@ for i, geo_json in enumerate(grid):
                             # Radius in metres
                         })
 
-    # MARKER
-    marker = folium.Marker(location=gj_loc,
-                           icon=folium.DivIcon(
-                               class_name="geojson_marker",
-                               html=f'''<div style="font-size: 13pt; align:center">{i}ASSD</div>''')
-                           )
+    first_day_df = query_df.loc[query_df['temp_day_id'] == 1]
 
-    gj.add_child(marker)
+    # FOR EACH GRID
+    for index, row in first_day_df.iterrows():
+
+        if ((i + 1) == row['fishnet_id']):
+
+            print("sdfsd")
+
+            words = row['tfidf_topwords']
+
+            display_string = get_word_string(words)
+
+            if len(words) > 0:
+
+                # MARKER
+                marker = folium.Marker(location=gj_loc,
+                                       icon=folium.DivIcon(
+                                           class_name="geojson_marker",
+                                           html=f'''<div style="font-size: 90%; align:center">{display_string}</div>''')
+                                       )
+
+                gj.add_child(marker)
+
+                map_uk.add_child(gj)
 
     # POPUP
     """
@@ -100,7 +117,6 @@ for i, geo_json in enumerate(grid):
     gj.add_child(popup)
     """
 
-    map_uk.add_child(gj)
 
 # map_uk.add_child(grid)
 
@@ -136,4 +152,4 @@ for index, row in first_day_df.iterrows():
         ).add_to(map_uk)
         """
 # save map to html file
-map_uk.save('index4.html')
+map_uk.save('index5.html')

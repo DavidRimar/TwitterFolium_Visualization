@@ -59,13 +59,20 @@
 
                 console.log("CURRENT ZOOM: " + currentZoom);
 
+                var startWidth = 60;
+                var startHeight = 48;
+
+                var newWidth = (10 * currentZoom) + ((currentZoom - 6)*42)
+                var newHeight = (8 * currentZoom) + ((currentZoom - 6)*42)
+
                 // get all div elements
                 var all_div_markers = document.querySelectorAll(".leaflet-marker-icon");
                 
                 console.log("all_div_markers: " + all_div_markers.length);
                 // change width and height
                 for (var i = 0; i < all_div_markers.length;  i++) {
-                    all_div_markers[i].style.height = "50px";
+                    all_div_markers[i].style.height = `${newHeight}px`;
+                    all_div_markers[i].style.width = `${newWidth}px`;
                 }
                 
                 // all_div_markers.style.height = "90px";

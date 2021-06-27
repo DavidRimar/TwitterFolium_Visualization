@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_b943aecdf8734b2297dadd11101880c3 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.css"/>
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_b943aecdf8734b2297dadd11101880c3" ></div>
+        
+</body>
+<script>    
+    
+            var map_b943aecdf8734b2297dadd11101880c3 = L.map(
+                "map_b943aecdf8734b2297dadd11101880c3",
+                {
+                    center: [53.89, -3.711111],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 6,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+            L.control.scale().addTo(map_b943aecdf8734b2297dadd11101880c3);
+
+            
+
+        
+    
+            var tile_layer_a0cd8b413aad41e598b80ecdaf94442c = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_b943aecdf8734b2297dadd11101880c3);
+        
+    
+            L.Control.TimeDimensionCustom = L.Control.TimeDimension.extend({
+                _getDisplayDateFormat: function(date){
+                    var newdate = new moment(date);
+                    console.log(newdate)
+                    return newdate.format("YYYY-MM-DD HH:mm:ss");
+                }
+            });
+            map_b943aecdf8734b2297dadd11101880c3.timeDimension = L.timeDimension(
+                {
+                    period: "PT1H",
+                }
+            );
+            var timeDimensionControl = new L.Control.TimeDimensionCustom(
+                {"autoPlay": false, "loopButton": false, "maxSpeed": 10, "minSpeed": 0.1, "playerOptions": {"loop": true, "startOver": true, "transitionTime": 1000}, "position": "bottomleft", "timeSliderDragUpdate": false}
+            );
+            map_b943aecdf8734b2297dadd11101880c3.addControl(this.timeDimensionControl);
+
+            var geoJsonLayer = L.geoJson([{'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 53.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 53.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 54.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 55.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 57.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 58.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 58.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 59.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 59.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 60.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 60.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 60.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 60.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 55.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 51.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 50.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">tomcat\n\nsofa\n\npenzance\n\nparlyapp\n\njunemummery\n\njanehobday1\n\njamesnathan333\n\njackihicks\n\ncatlover\n\n5th\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 50.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">welsh\n\ntwenty\n\nspring\n\nrhododendron\n\npolice\n\none\n\nnew\n\nmarch\n\nday\n\ncornwall\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 50.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\ntide\n\nthree\n\nthousand\n\none\n\nmarch\n\nhundred\n\ndorset\n\nback\n\nworld\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 50.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">thousand\n\nraminblack1\n\none\n\nnine\n\nmarch\n\nhundred\n\nhappy\n\nfirst\n\nday\n\ndeldb\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 51.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\nswansea\n\nst\n\npolice\n\nopen\n\none\n\nnew\n\nmarch\n\nhappy\n\nday\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 51.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">unitedkingdom\n\nunited\n\nposted\n\none\n\nmarch\n\nkingdom\n\nfree\n\nfoodwaste\n\nday\n\nbristol\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 51.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\ntwenty\n\nthousand\n\none\n\nnew\n\nmonth\n\nmarch\n\nhundred\n\nday\n\npm\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 51.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\ntwenty\n\nthousand\n\nsixty\n\nseven\n\none\n\nmarch\n\nkent\n\nhundred\n\nfive\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 52.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 52.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">swpolice\n\nstdavidsday\n\nst\n\npackaging\n\nmarch\n\nhappy\n\nget\n\nday\n\ndavid\n\nbundle\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 52.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\nthousand\n\nsayk\n\none\n\nmarch\n\nlatest\n\nkyliewines\n\nkylieminogue\n\ncompetition\n\nday\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 52.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\ntwenty\n\nthousand\n\npolice\n\npeople\n\none\n\nmarch\n\nhappy\n\nget\n\n1st\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 52.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\nthousand\n\nthirty\n\nsix\n\none\n\nmarch\n\nhundred\n\nfifty\n\neight\n\nlashes\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 53.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">wales\n\nthank\n\nsign\n\nshawls259\n\nproudtobewelsh\n\nplease\n\nleeks\n\nipetitions\n\ndevelopment\n\nbring\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 53.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\nthousand\n\npolice\n\none\n\nnew\n\nmarch\n\nhappy\n\nday\n\nweek\n\n1st\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 53.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">york\n\ntwo\n\nthousand\n\nthirty\n\npetition\n\none\n\nmarch\n\nhundred\n\nday\n\ncatchment\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 54.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">work\n\nweek\n\ntoday\n\nthousand\n\nstart\n\none\n\nmarch\n\ngood\n\nfight\n\nday\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 54.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">wainwrights\n\nticked\n\nspent\n\npaulagr72185092\n\nmcu\n\nguarantee\n\ngatherennerdale\n\nfells\n\ndottodot\n\navailability\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 54.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">welcome\n\nthousand\n\none\n\nnine\n\nmarch\n\nlike\n\nhundred\n\ngot\n\nday\n\nseven\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 56.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 54.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">wolds\n\nus\n\ntwo\n\nrace\n\none\n\nmarch\n\nhundred\n\ngypsey\n\nget\n\nalert\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 55.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">strand\n\nspring\n\none\n\nkemrocks1\n\njennieglee\n\ngillsmithsmith\n\nembraceagiantspirit\n\neamroulston\n\ncolerainefc\n\nannbutlmhrec\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 55.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">whatshappeninginmyanmar\n\nthousand\n\nterrorist\n\nrapporteurun\n\none\n\nmarch\n\nmar1coup\n\njunta\n\nfight\n\nfreyacole\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 55.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\ntwenty\n\nthousand\n\none\n\nnew\n\nmonth\n\nmarch\n\nday\n\ngood\n\n1st\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 56.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">two\n\ntwenty\n\nthousand\n\nterrorist\n\none\n\nmarch\n\nhundred\n\nday\n\ncup\n\nrun\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 56.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">thirty\n\nsunday\n\nsix\n\npm\n\none\n\nnine\n\nmarch\n\nlockdown\n\nhundred\n\nturbans\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 56.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 57.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">suggestion\n\nstart\n\nstars\n\nskye\n\nscotlandisnow\n\nscotland\n\nnicolasturgeon\n\ngreat\n\ngmdfreelance\n\ndrawn\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 57.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">tits\n\nscotland\n\npolice\n\nphotos\n\nmarch\n\nlonger\n\nget\n\nday\n\ncontinues\n\nchange\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 57.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">white\n\ntonight\n\nrabbits\n\nnightmare\n\nmonth\n\nlike\n\nfirst\n\nday\n\nclinch\n\naberdeen\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-0.2999999999999998, 57.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 58.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center">unrealistically\n\ntemperature\n\ntarisgal42\n\nstaylocal\n\nsensor\n\nradiation\n\nmoflomojo\n\ncairngorm\n\nbirdtonic\n\nbbchighlands\n\n</div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 58.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-2.3, 58.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 59.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 59.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 60.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-6.3, 56.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [-4.3, 59.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}, {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [1.7000000000000002, 50.47]}, 'properties': {'time': '1999-09-09 12:00:00', 'style': {'color': 'red'}, 'icon': 'DivIcon', 'iconstyle': {'icon_size': (30, 20), 'html': '<div style="font-size: 90%; align:center"></div>'}}}], {
+                    pointToLayer: function (feature, latLng) {
+                        if (feature.properties.icon == 'marker') {
+                            if(feature.properties.iconstyle){
+                                return new L.Marker(latLng, {
+                                    icon: L.icon(feature.properties.iconstyle)});
+                            }
+                            //else
+                            return new L.Marker(latLng);
+                        }
+                        if (feature.properties.icon == 'circle') {
+                            if (feature.properties.iconstyle) {
+                                return new L.circleMarker(latLng, feature.properties.iconstyle)
+                                };
+                            //else
+                            return new L.circleMarker(latLng);
+                        }
+                        //else
+
+                        return new L.Marker(latLng);
+                    },
+                    style: function (feature) {
+                        return feature.properties.style;
+                    },
+                    onEachFeature: function(feature, layer) {
+                        if (feature.properties.popup) {
+                        layer.bindPopup(feature.properties.popup);
+                        }
+                    }
+                })
+
+            var timestamped_geo_json_51175e1472c14ac399c14439c6c559b6 = L.timeDimension.layer.geoJson(
+                geoJsonLayer,
+                {
+                    updateTimeDimension: true,
+                    addlastPoint: true,
+                    duration: "PT1M",
+                }
+            ).addTo(map_b943aecdf8734b2297dadd11101880c3);
+        
+</script>
