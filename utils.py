@@ -9,10 +9,20 @@ def get_word_string(dictionary):
     for word in words:
 
         display_string += word
-        display_string += "\n\n"
+        display_string += "<br>"
 
     # a_list = list(a_view)
     return display_string
+
+
+"""
+How to create GeoJSOn from database ishnet grid
+ST_
+GDAL - ogr2ogr
+"""
+
+
+# def get_features_from_posgres(df):
 
 
 def get_geojson_grid(upper_right, lower_left, h=5, v=11):
@@ -91,6 +101,15 @@ def create_geojson_words_circle(df):
     features = []
 
     for _, row in df.iterrows():
+
+        # get the words to display
+        words = get_word_string(row['tfidf_topwords'])
+
+        #
+        #date_string = row['time_day'].strftime("%Y-%m-%d %H:%M:%S")
+        date_string_2 = str(row['time_day'])
+        #print("date:", pd.to_datetime(row['time_day'], unit='d').__str__())
+
         feature = {
             'type': 'Feature',
             'geometry': {
@@ -98,7 +117,8 @@ def create_geojson_words_circle(df):
                 'coordinates': [row['fishnet_geom_center_lon'], row['fishnet_geom_center_lat']]
             },
             'properties': {
-                'time': '1999-09-09 12:00:00',
+                # pd.to_datetime(row['time_day'], unit='d').__str__(),
+                'time': date_string_2,
                 'style': {'color': ''},
                 'icon': 'circle',
                 'iconstyle': {
@@ -107,7 +127,7 @@ def create_geojson_words_circle(df):
                     'stroke': 'true',
                     'radius': 5
                 },
-                'label': 'eee'
+                'label': words
             }
         }
 
