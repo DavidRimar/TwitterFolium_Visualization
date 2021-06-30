@@ -22,7 +22,41 @@ GDAL - ogr2ogr
 """
 
 
-# def get_features_from_posgres(df):
+def get_geoJSON_grids_postgres(df):
+    """Returns a grid of geojson rectangles as a Feature Collection.
+
+    Parameters
+    ----------
+    df: The dataframe from the PostGreSQL
+
+    Returns
+    -------
+
+    list
+        List of "geojson style" dictionary objects
+    """
+    all_grids = []
+
+    for index, row in df.iterrows():
+
+        # create a Feature Collection for each grid
+        geo_json = {"type": "FeatureCollection",
+                    "properties": {
+                        "random": "random"
+                    },
+                    "features": []}
+
+        # get the grid as geoJSON
+        grid_feature = {
+            "type": "Feature",
+            "geometry": row["st_asgeojson"]
+        }
+
+        geo_json["features"].append(grid_feature)
+
+        all_grids.append(geo_json)
+
+    return all_grids
 
 
 def get_geojson_grid(upper_right, lower_left, h=5, v=11):
@@ -43,7 +77,7 @@ def get_geojson_grid(upper_right, lower_left, h=5, v=11):
     -------
 
     list
-        List of "geojson style" dictionary objects   
+        List of "geojson style" dictionary objects
     """
 
     all_boxes = []
@@ -106,9 +140,9 @@ def create_geojson_words_circle(df):
         words = get_word_string(row['tfidf_topwords'])
 
         #
-        #date_string = row['time_day'].strftime("%Y-%m-%d %H:%M:%S")
+        # date_string = row['time_day'].strftime("%Y-%m-%d %H:%M:%S")
         date_string_2 = str(row['time_day'])
-        #print("date:", pd.to_datetime(row['time_day'], unit='d').__str__())
+        # print("date:", pd.to_datetime(row['time_day'], unit='d').__str__())
 
         feature = {
             'type': 'Feature',
