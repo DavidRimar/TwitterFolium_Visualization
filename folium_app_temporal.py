@@ -23,38 +23,7 @@ center = [53.890000, -3.711111]  # latitude, longitude
 map_uk = folium.Map(location=center, zoom_start=6,
                     control_scale=True)
 
-# ////////// GRID (manual)
-"""
-lower_left = [49.97, -7.30]  # lon: -7.30, lat: 49.97
-upper_right = [60.95, 2.35]  # lon: 2.30, lat: 59.145
-grid = get_geojson_grid(upper_right, lower_left, h=5, v=11)
-
-print(grid[0])
-
-for i, geo_json in enumerate(grid):
-
-    color = plt.cm.Reds(i / len(grid))
-    color = mpl.colors.to_hex(color)
-
-    #gj_loc = geo_json['properties']['center']
-    #print("gj_loc:", gj_loc)
-    # print(type(gj_loc))
-
-    gj = folium.GeoJson(geo_json,
-                        style_function=lambda feature, color=color: {
-                            'fillColor': color,
-                            'color': "blue",
-                            'weight': 2,
-                            'dashArray': '1, 1',
-                            'fillOpacity': 0.01
-                            # Radius in metres
-                        })
-
-    map_uk.add_child(gj)
-"""
-
 # ////////// GRID (postgresql)
-
 fishnet_11_5_df = tweetCrawler.crawl_data_with_session(
     GRID_11_5)
 
@@ -83,7 +52,7 @@ for i, geo_json in enumerate(grid):
 #first_day_df = query_df.loc[query_df['temp_day_id'] == 1]
 
 # ////////// TEMPORAL MARKERS
-"""
+
 # GET tweets
 query_df = tweetCrawler.crawl_data_with_session(
     BristolFishnet)
@@ -103,7 +72,7 @@ TimestampedGeoJson(geojson_markers,
                    transition_time=1000,
                    auto_play=False,
                    time_slider_drag_update=True).add_to(map_uk)
-"""
+
 
 # save map to html file
-map_uk.save('temporal_fishnet_11_5_popup_pggrids.html')
+map_uk.save('html/fishnet_11_5.html')
