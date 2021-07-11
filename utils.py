@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import random
+import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 
@@ -23,6 +24,8 @@ ST_
 GDAL - ogr2ogr
 """
 
+# passing in fishnet_11_5_sem
+
 
 def get_geoJSON_grids_postgres(df):
     """Returns a grid of geojson rectangles as a Feature Collection.
@@ -41,12 +44,20 @@ def get_geoJSON_grids_postgres(df):
 
     for index, row in df.iterrows():
 
+        # get time
+        date_string = str(row['time_day'])
+
+        # get the words to display
+        words = get_word_string(row['tfidf_bigrams'])
+
+        # get the color based on normalized volumes
+
         # set color based on normalized volumes
         n_random = random.random()
 
         print("n_RANDOM: ", n_random)
 
-        cmap = mpl.cm.get_cmap('OrRd')
+        cmap = plt.cm.get_cmap('OrRd')
 
         num = 0.0
 
@@ -59,7 +70,9 @@ def get_geoJSON_grids_postgres(df):
         geo_json = {"type": "FeatureCollection",
                     "properties": {
                         "random": "random",
-                        "color": colorVolume
+                        "color": colorVolume,
+                        'label': words,
+                        'time': date_string
                     },
                     "features": []}
 
@@ -76,46 +89,51 @@ def get_geoJSON_grids_postgres(df):
     return all_grids
 
 
-def create_geojson_words_circle(df):
+def create_timestamped_geojson_polygons(df):
+
+    # new_df = scale_number(0, 1, df)
 
     features = []
 
     for _, row in df.iterrows():
 
         # get the words to display
-        words = get_word_string(row['tfidf_topwords2'])
+        words = get_word_string(row['tfidf_bigrams'])
 
-        conditionalColor = 'black'
-        # if words string above is larger in its length than 1
-        if len(words) > 1:
-            conditionalColor = 'red'
+        # get color
+        norm_vol = float("{:.12f}".format(row['scaled_normalized']))
+        color = plt.cm.Reds(norm_vol)
+        color = mpl.colors.to_hex(color)
 
         # date_string
-        date_string = str(row['time_day'])
+        #date_string = str(row['time_day'])
+        date_string = pd.to_datetime(row['time_day'], unit='d').__str__()
+
+        #print("day: ", date_string)
 
         feature = {
             'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [row['fishnet_geom_center_lon'], row['fishnet_geom_center_lat']]
-            },
+            'geometry': row["st_asgeojson"],
             'properties': {
-                # pd.to_datetime(row['time_day'], unit='d').__str__(),
                 'time': date_string,
-                'style': {'color': ''},
-                'icon': 'circle',
-                'iconstyle': {
-                    'fillColor': conditionalColor,
-                    'fillOpacity': 0.99,
-                    'stroke': 'true',
-                    'radius': 5
-                },
-                'label': words
+                'style': {'color': 'blue',
+                          'fillColor': color,
+                          'fillOpacity': 0.99},
+                'label': words,
+                # 'icon': 'circle',
+                # 'iconstyle': {
+                #    'fillColor': conditionalColor,
+                #    'fillOpacity': 0.99,
+                #    'stroke': 'true',
+                #    'radius': 5
+                # },
             }
         }
 
         # add feature to features
         features.append(feature)
+
+    print("featureset:", features)
 
     return features
 
@@ -151,3 +169,15 @@ def create_geojson_words_markers(df):
         features.append(feature)
 
     return features
+
+
+def scale_number(scale_lower, scale_upper, df):
+    """
+    Returns a new dataframe with an extra column of the scaled numbers.
+    """
+    a, b = scale_lower, scale_upper
+    x, y = df.normalized_volumes.min(), df.normalized_volumes.max()
+    df['scaled_normalized'] = (
+        df.normalized_volumes - x) / (y - x) * (b - a) + a
+
+    return df

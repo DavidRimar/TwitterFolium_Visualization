@@ -26,6 +26,7 @@ dualmap_uk = DualMap(location=center,
 
 ###############################
 
+"""
 # ////////// GRID VIEWS
 # get the grids from postgreSQL
 fishnet_11_5_df = tweetCrawler.crawl_data_with_session(
@@ -71,41 +72,54 @@ for i, geo_json in enumerate(grid_88_40):
                          })
 
     dualmap_uk.m2.add_child(gjs)
+"""
 
 # ////////// TEMPORAL MARKERS
 
 # GET tweets
 query_11_5_df = tweetCrawler.crawl_data_with_session(
     BristolFishnet_11_5)
-query_88_40_df = tweetCrawler.crawl_data_with_session(
-    BristolFishnet_88_40)
+# query_88_40_df = tweetCrawler.crawl_data_with_session(
+#    BristolFishnet_88_40)
 
 query_11_5_df = query_11_5_df.sort_values(by=['time_day'])
-query_88_40_df = query_11_5_df.sort_values(by=['time_day'])
+#query_88_40_df = query_88_40_df.sort_values(by=['time_day'])
 
-# print(query_df.head(10))
+query_11_5_df = scale_number(0, 1, query_11_5_df)
+
+#query_11_5_df = query_11_5_df[query_11_5_df['temp_day_id'] < 32]
+
+"""
+query_11_5_df_from29 = query_11_5_df[query_11_5_df['temp_day_id'] >= 29]
+query_11_5_df_till29 = query_11_5_df[query_11_5_df['temp_day_id'] < 29]
+"""
+#query_88_40_df = query_88_40_df.loc(query_88_40_df['temp_day_id'] == 33)
+
+# print(query_11_5_df.head(10))
 # print(query_df.tail(10))
 
-# create cricles
-geojson_11_5_circles = create_geojson_words_circle(query_11_5_df)
-geojson_88_40_circles = create_geojson_words_circle(query_88_40_df)
+# CREATE GEOJSON GRIDS (from DB)
+geojson_11_5_grids = create_timestamped_geojson_polygons(query_11_5_df)
+
+#geojson_88_40_grids = create_timestamped_geojson_polygons(query_88_40_df)
 
 #print("example: ", geojson_11_5_circles[0])
 
-TimestampedGeoJson(geojson_11_5_circles,
+TimestampedGeoJson(geojson_11_5_grids,
                    period='P1D',
-                   duration=None,
+                   duration='PT1H',  # If None, all previous times show
                    transition_time=1000,
                    auto_play=False,
                    time_slider_drag_update=True).add_to(dualmap_uk.m1)
 
-
-TimestampedGeoJson(geojson_88_40_circles,
+"""
+TimestampedGeoJson(geojson_88_40_grids,
                    period='P1D',
-                   duration=None,
+                   duration='PT1M',
                    transition_time=1000,
                    auto_play=False,
                    time_slider_drag_update=True).add_to(dualmap_uk.m2)
+"""
 
 # save map to html file
-dualmap_uk.save('html/fishnet_dualmap.html')
+dualmap_uk.save('html/fishnet_dualmap_all.html')
