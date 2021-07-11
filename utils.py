@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import random
+import matplotlib as mpl
 
 
 def get_word_string(dictionary):
@@ -39,10 +41,25 @@ def get_geoJSON_grids_postgres(df):
 
     for index, row in df.iterrows():
 
+        # set color based on normalized volumes
+        n_random = random.random()
+
+        print("n_RANDOM: ", n_random)
+
+        cmap = mpl.cm.get_cmap('OrRd')
+
+        num = 0.0
+
+        if (index % 2) == 0:
+            num = 1.0
+
+        colorVolume = cmap(num)
+
         # create a Feature Collection for each grid
         geo_json = {"type": "FeatureCollection",
                     "properties": {
-                        "random": "random"
+                        "random": "random",
+                        "color": colorVolume
                     },
                     "features": []}
 
@@ -66,17 +83,15 @@ def create_geojson_words_circle(df):
     for _, row in df.iterrows():
 
         # get the words to display
-        words = get_word_string(row['tfidf_topwords'])
+        words = get_word_string(row['tfidf_topwords2'])
 
         conditionalColor = 'black'
         # if words string above is larger in its length than 1
         if len(words) > 1:
             conditionalColor = 'red'
 
-        #
-        # date_string = row['time_day'].strftime("%Y-%m-%d %H:%M:%S")
-        date_string_2 = str(row['time_day'])
-        # print("date:", pd.to_datetime(row['time_day'], unit='d').__str__())
+        # date_string
+        date_string = str(row['time_day'])
 
         feature = {
             'type': 'Feature',
@@ -86,7 +101,7 @@ def create_geojson_words_circle(df):
             },
             'properties': {
                 # pd.to_datetime(row['time_day'], unit='d').__str__(),
-                'time': date_string_2,
+                'time': date_string,
                 'style': {'color': ''},
                 'icon': 'circle',
                 'iconstyle': {

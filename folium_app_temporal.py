@@ -31,21 +31,50 @@ grid = get_geoJSON_grids_postgres(fishnet_11_5_df)
 
 print(grid[0])
 
+
+"""
+def style_function(feature):
+    props = feature.get('properties')
+    color = props.get('color')
+    return {"html": markup}
+"""
+
+
+def custom_style_function(feature):
+    #employed = employed_series.get(int(feature["id"][-5:]), None)
+    return {
+        "fillColor": mpl.colors.to_hex(feature['properties']['color']),
+        'color': "blue",
+        'weight': 1.5,
+        'dashArray': '1, 1',
+        'fillOpacity': 0.99
+    }
+
+
 # iterate over all geo_json objects (each is a FeatureCollection)
 for i, geo_json in enumerate(grid):
 
-    color = plt.cm.Reds(i / len(grid))
-    color = mpl.colors.to_hex(color)
+    #colorReds = plt.cm.Reds(i / len(grid))
+    #print("color reds: ", colorReds)
+
+    # cmap = plt.cm.get_cmap('OrRd')
+    colorRGB = geo_json['properties']['color']
+    print("color RGB: ", i, " ", colorRGB)
+
+    colorHEX = mpl.colors.to_hex(colorRGB)
+    print("color HEX: ", i, " ", colorHEX)
 
     gj = folium.GeoJson(geo_json,
-                        style_function=lambda feature, color=color: {
-                            'fillColor': color,
+                        style_function=lambda x: {
+                            "fillColor": '',
                             'color': "blue",
                             'weight': 1.5,
                             'dashArray': '1, 1',
-                            'fillOpacity': 0.01
-                            # Radius in metres
-                        })
+                            'fillOpacity': 0.99
+                            # "radius": (x['properties']['lines_served'])*30,
+                        }
+
+                        )
 
     map_uk.add_child(gj)
 
@@ -55,7 +84,7 @@ for i, geo_json in enumerate(grid):
 
 # GET tweets
 query_df = tweetCrawler.crawl_data_with_session(
-    BristolFishnet)
+    BristolFishnet_11_5)
 
 query_df = query_df.sort_values(by=['time_day'])
 
