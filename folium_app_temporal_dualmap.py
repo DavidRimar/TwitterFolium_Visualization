@@ -21,7 +21,7 @@ tweetCrawler = TweetCrawler(DATABASE_URI_RDS_TWEETS)
 # instantiatie map
 center = [53.890000, -3.711111]  # latitude, longitude
 dualmap_uk = DualMap(location=center,
-                     tiles='cartodbpositron',  # 'openstreetmap'
+                     tiles='openstreetmap',  # 'cartodbpositron'
                      zoom_start=6, control_scale=True)
 
 ###############################
@@ -79,20 +79,13 @@ for i, geo_json in enumerate(grid_88_40):
 # GET tweets
 query_11_5_df = tweetCrawler.crawl_data_with_session(
     BristolFishnet_11_5)
-# query_88_40_df = tweetCrawler.crawl_data_with_session(
-#    BristolFishnet_88_40)
+query_88_40_df = tweetCrawler.crawl_data_with_session(
+    BristolFishnet_88_40)
 
 query_11_5_df = query_11_5_df.sort_values(by=['time_day'])
-#query_88_40_df = query_88_40_df.sort_values(by=['time_day'])
-
-query_11_5_df = scale_number(0, 1, query_11_5_df)
+query_88_40_df = query_88_40_df.sort_values(by=['time_day'])
 
 #query_11_5_df = query_11_5_df[query_11_5_df['temp_day_id'] < 32]
-
-"""
-query_11_5_df_from29 = query_11_5_df[query_11_5_df['temp_day_id'] >= 29]
-query_11_5_df_till29 = query_11_5_df[query_11_5_df['temp_day_id'] < 29]
-"""
 #query_88_40_df = query_88_40_df.loc(query_88_40_df['temp_day_id'] == 33)
 
 # print(query_11_5_df.head(10))
@@ -100,8 +93,7 @@ query_11_5_df_till29 = query_11_5_df[query_11_5_df['temp_day_id'] < 29]
 
 # CREATE GEOJSON GRIDS (from DB)
 geojson_11_5_grids = create_timestamped_geojson_polygons(query_11_5_df)
-
-#geojson_88_40_grids = create_timestamped_geojson_polygons(query_88_40_df)
+geojson_88_40_grids = create_timestamped_geojson_polygons(query_88_40_df)
 
 #print("example: ", geojson_11_5_circles[0])
 
@@ -112,14 +104,14 @@ TimestampedGeoJson(geojson_11_5_grids,
                    auto_play=False,
                    time_slider_drag_update=True).add_to(dualmap_uk.m1)
 
-"""
+
 TimestampedGeoJson(geojson_88_40_grids,
                    period='P1D',
-                   duration='PT1M',
+                   duration='PT1H',
                    transition_time=1000,
                    auto_play=False,
                    time_slider_drag_update=True).add_to(dualmap_uk.m2)
-"""
+
 
 # save map to html file
-dualmap_uk.save('html/fishnet_dualmap_all.html')
+dualmap_uk.save('html/dbscan_004_5.html')

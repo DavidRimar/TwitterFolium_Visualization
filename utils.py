@@ -101,7 +101,7 @@ def create_timestamped_geojson_polygons(df):
         words = get_word_string(row['tfidf_bigrams'])
 
         # get color
-        norm_vol = float("{:.12f}".format(row['scaled_normalized']))
+        norm_vol = float("{:.12f}".format(row['scaled_vol_06']))
         color = plt.cm.Reds(norm_vol)
         color = mpl.colors.to_hex(color)
 
@@ -118,7 +118,7 @@ def create_timestamped_geojson_polygons(df):
                 'time': date_string,
                 'style': {'color': 'blue',
                           'fillColor': color,
-                          'fillOpacity': 0.99},
+                          'fillOpacity': 0.59},
                 'label': words,
                 # 'icon': 'circle',
                 # 'iconstyle': {
@@ -177,7 +177,18 @@ def scale_number(scale_lower, scale_upper, df):
     """
     a, b = scale_lower, scale_upper
     x, y = df.normalized_volumes.min(), df.normalized_volumes.max()
-    df['scaled_normalized'] = (
+    spat_df['scaled_normalized'] = (
         df.normalized_volumes - x) / (y - x) * (b - a) + a
+
+    """
+    # scale using values from within the same spatial division
+    for day in range(1, days):
+
+        spat_df = df[df['temp_day_id'] == day]
+        x, y = spat_df.normalized_volumes.min(), spat_df.normalized_volumes.max()
+
+        spat_df['scaled_normalized'] = (
+            df.normalized_volumes - x) / (y - x) * (b - a) + a
+    """
 
     return df
