@@ -114,3 +114,46 @@ class BristolFishnet_88_40(Base):
                    'scaled_vol_06': self.scaled_vol_06}
 
         return as_dict
+
+
+class BristolDBSCAN_004_5_SEM(Base):
+    __tablename__ = 'dbscan_004_5_sem'
+    id = Column(Integer, primary_key=True)  # Auto-generated ID
+    spat_temp_id = Column(Integer)
+    spat_temp_id_str = Column(String)
+    dbscan_004_5_temp_id = Column(Integer)
+    temp_day_id = Column(Integer)
+    tfidf_topwords_lem = Column(JSON)
+    tfidf_bigrams = Column(JSON)
+    convexhull = Column(Geometry('POLYGON'))
+
+    bristol_volumes = Column(Integer)
+    all_volumes = Column(Integer)
+    normalized_volumes = Column(NUMERIC)
+
+    time_day = Column(DateTime)
+    st_asgeojson = Column(JSON)
+    scaled_vol_06 = Column(NUMERIC)
+
+    # Constructor
+
+    def __repr__(self):
+        return "<Tweet(spat_temp_id='{}', spat_temp_id_str='{}', dbscan_004_5_temp_id={}, temp_day_id={}, tfidf_topwords_lem={}, tfidf_bigrams={}, convexhull={}, bristol_volumes={}, all_volumes={}, normalized_volumes={}, time_day={}, st_asgeojson={}, scaled_vol_06={})>".format(self.spat_temp_id, self.spat_temp_id_str, self.dbscan_004_5_temp_id, self.temp_day_id, self.tfidf_topwords_lem, self.tfidf_bigrams, self.convexhull, self.bristol_volumes, self.all_volumes, self.normalized_volumes, self.time_day, self.st_asgeojson, self.scaled_vol_06)
+
+    def as_dict(self):
+
+        as_dict = {'spat_temp_id': self.spat_temp_id,
+                   'spat_temp_id_str': self.spat_temp_id_str,
+                   'dbscan_004_5_temp_id': self.dbscan_004_5_temp_id,
+                   'temp_day_id': self.temp_day_id,
+                   'tfidf_topwords_lem': self.tfidf_topwords_lem,
+                   'tfidf_bigrams': self.tfidf_bigrams,
+                   'convexhull': self.convexhull,
+                   'bristol_volumes': self.bristol_volumes,
+                   'all_volumes': self.all_volumes,
+                   'normalized_volumes': self.normalized_volumes,
+                   'time_day': self.time_day,
+                   'st_asgeojson': self.st_asgeojson,
+                   'scaled_vol_06': self.scaled_vol_06}
+
+        return as_dict
