@@ -35,30 +35,36 @@ query_dbscan_004_5_df = tweetCrawler.crawl_data_with_session(
 
 query_dbscan_004_5_df = query_dbscan_004_5_df.sort_values(by=['time_day'])
 
-print("df: ", query_dbscan_004_5_df.head(8))
+single_area = query_dbscan_004_5_df.loc[query_dbscan_004_5_df["temp_day_id"]
+                                        == 3]
+
+single_area = single_area.loc[single_area["dbscan_004_5_temp_id"] == 1]
+
+print("df: ", single_area)
 
 # CREATE GEOJSON POLYGONS (from DB)
-geojson_dbscan_unigrams = create_timestamped_geojson_polygons_dbscan(
-    query_dbscan_004_5_df, 'tfidf_topwords_lem')
-geojson_dbscan_bigrams = create_timestamped_geojson_polygons_dbscan(
-    query_dbscan_004_5_df, 'tfidf_bigrams')
+geojson_dbscan_unigrams = create_timestamped_geojson_polygons_dbscan_times(
+    single_area, 'tfidf_topwords_lem')
+# geojson_dbscan_bigrams = create_timestamped_geojson_polygons_dbscan(
+#    query_dbscan_004_5_df, 'tfidf_bigrams')
 
 
 # ADD TIMESTAMPED GEOJSON TO MAP
 TimestampedGeoJson(geojson_dbscan_unigrams,
                    period='P1D',
                    duration='PT1H',  # If None, all previous times show
-                   transition_time=1000,
+                   transition_time=2000,
                    auto_play=False,
                    time_slider_drag_update=True).add_to(dualmap_uk.m1)
 
+"""
 TimestampedGeoJson(geojson_dbscan_bigrams,
                    period='P1D',
                    duration='PT1H',  # If None, all previous times show
                    transition_time=1000,
                    auto_play=False,
                    time_slider_drag_update=True).add_to(dualmap_uk.m2)
-
+"""
 
 # SAVE MAP AS HTML FILE
-dualmap_uk.save('html/dbscan_dualmap.html')
+dualmap_uk.save('html/singlearea_dualmap.html')

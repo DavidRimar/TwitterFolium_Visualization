@@ -92,8 +92,10 @@ query_88_40_df = query_88_40_df.sort_values(by=['time_day'])
 # print(query_df.tail(10))
 
 # CREATE GEOJSON GRIDS (from DB)
-geojson_11_5_grids = create_timestamped_geojson_polygons(query_11_5_df)
-geojson_88_40_grids = create_timestamped_geojson_polygons(query_88_40_df)
+geojson_11_5_grids = create_timestamped_geojson_polygons_fishnet(
+    query_11_5_df, 'tfidf_topwords2')
+geojson_88_40_grids = create_timestamped_geojson_polygons_fishnet(
+    query_88_40_df, 'tfidf_topwords_lem')
 
 #print("example: ", geojson_11_5_circles[0])
 
@@ -114,4 +116,4 @@ TimestampedGeoJson(geojson_88_40_grids,
 
 
 # save map to html file
-dualmap_uk.save('html/dbscan_004_5.html')
+dualmap_uk.save('html/fishnet_dualmap_unigrams2.html')
