@@ -20,7 +20,7 @@ def get_word_string(dictionary):
     return display_string
 
 
-def create_timestamped_geojson_polygons_fishnet(df, tfidf):
+def create_timestamped_geojson_polygons_fishnet(df, tfidf, volume):
 
     # new_df = scale_number(0, 1, df)
 
@@ -32,15 +32,15 @@ def create_timestamped_geojson_polygons_fishnet(df, tfidf):
         words = get_word_string(row[tfidf])
 
         # get color
-        norm_vol = float("{:.12f}".format(row['scaled_vol_06']))
+        norm_vol = float("{:.12f}".format(row[volume]))
         color = plt.cm.Reds(norm_vol)
         color = mpl.colors.to_hex(color)
 
         # date_string
-        #date_string = str(row['time_day'])
+        # date_string = str(row['time_day'])
         date_string = pd.to_datetime(row['time_day'], unit='d').__str__()
 
-        #print("day: ", date_string)
+        # print("day: ", date_string)
 
         feature = {
             'type': 'Feature',
@@ -48,7 +48,7 @@ def create_timestamped_geojson_polygons_fishnet(df, tfidf):
             'properties': {
                 'time': date_string,
                 'style': {'color': 'blue',
-                          'stroke': 1,
+                          # 'width': 1,
                           'fillColor': color,
                           'fillOpacity': 0.59},
                 'label': words,
@@ -81,10 +81,10 @@ def create_timestamped_geojson_polygons_dbscan(df, tfidf_results):
             color = mpl.colors.to_hex(color)
 
             # date_string
-            #date_string = str(row['time_day'])
+            # date_string = str(row['time_day'])
             date_string = pd.to_datetime(row['time_day'], unit='d').__str__()
 
-            #print("day: ", date_string)
+            # print("day: ", date_string)
 
             feature = {
                 'type': 'Feature',
@@ -92,7 +92,6 @@ def create_timestamped_geojson_polygons_dbscan(df, tfidf_results):
                 'properties': {
                     'time': date_string,
                     'style': {'color': 'blue',
-                              'stroke-width': 1,
                               'fillColor': color,
                               'fillOpacity': 0.59},
                     'label': words,
@@ -105,7 +104,7 @@ def create_timestamped_geojson_polygons_dbscan(df, tfidf_results):
     return features
 
 
-def create_timestamped_geojson_polygons_dbscan_times(df, tfidf_results):
+def create_timestamped_geojson_polygons_stdbscan(df, tfidf_results, time_interval):
 
     features = []
 
@@ -122,18 +121,21 @@ def create_timestamped_geojson_polygons_dbscan_times(df, tfidf_results):
             color = plt.cm.Reds(norm_vol)
             color = mpl.colors.to_hex(color)
 
-            # get time
-            #string_of_dates = [row['start_date'], row['end_date']]
-            # string_of_dates = ["2021-03-03 00:00:00",
-            #                   "2021-03-04 00:00:00", "2021-03-05 00:00:00"]
-            string_of_dates = create_dates_array_daily(row)
+            # get array of times
+            if time_interval == 'span_day':
+
+                string_of_dates = create_dates_array_daily(row)
+
+            elif time_interval == 'span_hour':
+
+                string_of_dates = create_dates_array_hourly(row)
 
             feature = {
                 'type': 'Feature',
                 'geometry': {
                     'type': row["st_asgeojson"]['type'],
-                    # duplication for matching 6 timestamps
-                    'coordinates': row["st_asgeojson"]['coordinates'] * row['span_day'],
+                    # duplication of geoJSONs for each time window
+                    'coordinates': row["st_asgeojson"]['coordinates'] * row[time_interval],
                 },
                 'properties': {
                     'times': string_of_dates,
@@ -166,8 +168,35 @@ def create_dates_array_daily(row):
 
         start_date += timedelta(days=1)
 
-        #next_day_str = pd.to_datetime(start_date, unit='d').__str__()
+        # next_day_str = pd.to_datetime(start_date, unit='d').__str__()
         next_day_str = truncate(start_date, 'day').__str__()
+
+        # append to dates_array
+        dates_array.append(next_day_str)
+
+    # print(row['stdbscan_id'], " - ", dates_array)
+
+    return dates_array
+
+
+def create_dates_array_hourly(row):
+
+    dates_array = []
+    # if 1, nothing gets added part from start_date
+    time_span = row['span_hour']
+    start_date = row['start_date']
+    # start_date_str = pd.to_datetime(row['start_date'], unit='d').__str__()
+    # dt.replace(hour=0, minute=0, second=0, microsecond=0)
+    start_date_str = truncate(row['start_date'], 'hour').__str__()
+
+    dates_array.append(start_date_str)
+
+    for i in range(1, time_span):
+
+        start_date += timedelta(hours=1)
+
+        # next_day_str = pd.to_datetime(start_date, unit='d').__str__()
+        next_day_str = truncate(start_date, 'hour').__str__()
 
         # append to dates_array
         dates_array.append(next_day_str)

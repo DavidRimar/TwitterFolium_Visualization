@@ -20,7 +20,6 @@ tweetCrawler = TweetCrawler(DATABASE_URI_RDS_TWEETS)
 
 # instantiatie map
 center = [53.890000, -3.711111]  # latitude, longitude
-
 dualmap_uk = DualMap(location=center,
                      tiles='openstreetmap',  # 'cartodbpositron'
                      zoom_start=6, control_scale=True)
@@ -28,43 +27,41 @@ dualmap_uk = DualMap(location=center,
 ###############################
 
 # ////////// TEMPORAL MARKERS
-
 # GET tweets
-query_dbscan_004_5_df = tweetCrawler.crawl_data_with_session(
-    BristolDBSCAN_004_5_SEM)
+query_88_40_df = tweetCrawler.crawl_data_with_session(
+    BristolFishnet_88_40)
 
-query_dbscan_004_5_df = query_dbscan_004_5_df.sort_values(by=['time_day'])
+#query_88_40_df = query_88_40_df.sort_values(by=['time_day'])
 
-single_area = query_dbscan_004_5_df.loc[query_dbscan_004_5_df["temp_day_id"]
-                                        == 3]
+#query_11_5_df = query_11_5_df[query_11_5_df['temp_day_id'] < 32]
+query_88_40_df = query_88_40_df[query_88_40_df['temp_day_id'] > 8]
 
-single_area = single_area.loc[single_area["dbscan_004_5_temp_id"] == 1]
+# print(query_11_5_df.head(10))
+# print(query_df.tail(10))
 
-print("df: ", single_area)
-
-# CREATE GEOJSON POLYGONS (from DB)
-geojson_dbscan_unigrams = create_timestamped_geojson_polygons_dbscan_times(
-    single_area, 'tfidf_topwords_lem')
-# geojson_dbscan_bigrams = create_timestamped_geojson_polygons_dbscan(
-#    query_dbscan_004_5_df, 'tfidf_bigrams')
+# CREATE GEOJSON GRIDS (from DB)
+geojson_88_40_grids = create_timestamped_geojson_polygons_fishnet(
+    query_88_40_df, 'tfidf_bigrams', 'scaled_vol_06')
+geojson_88_40_grids_textcat = create_timestamped_geojson_polygons_fishnet(
+    query_88_40_df, 'tfidf_bigrams_textcat', 'scaled_vol_06_textcat')
 
 
-# ADD TIMESTAMPED GEOJSON TO MAP
-TimestampedGeoJson(geojson_dbscan_unigrams,
-                   period='P1D',
-                   duration='PT1H',  # If None, all previous times show
-                   transition_time=2000,
-                   auto_play=False,
-                   time_slider_drag_update=True).add_to(dualmap_uk.m1)
-
-"""
-TimestampedGeoJson(geojson_dbscan_bigrams,
+# ADD TIMESTAMPED GEOJSON TO MAPS
+TimestampedGeoJson(geojson_88_40_grids,
                    period='P1D',
                    duration='PT1H',  # If None, all previous times show
                    transition_time=1000,
                    auto_play=False,
-                   time_slider_drag_update=True).add_to(dualmap_uk.m2)
-"""
+                   time_slider_drag_update=True).add_to(dualmap_uk.m1)
 
-# SAVE MAP AS HTML FILE
-dualmap_uk.save('html/singlearea_dualmap.html')
+
+TimestampedGeoJson(geojson_88_40_grids_textcat,
+                   period='P1D',
+                   duration='PT1H',
+                   transition_time=1000,
+                   auto_play=False,
+                   time_slider_drag_update=True).add_to(dualmap_uk.m2)
+
+
+# save map to html file
+dualmap_uk.save('html/fishnet_bigrams_textcat_pure.html')

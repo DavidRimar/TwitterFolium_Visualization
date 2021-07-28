@@ -57,38 +57,3 @@ class STDBSCAN_02_10800_3_SEM(Base):
                    }
 
         return as_dict
-
-
-class COPY_OF_TXT(Base):
-    __tablename__ = 'copy_of_txt'
-    id = Column(Integer, primary_key=True)  # Auto-generated ID
-    stdbscan_id = Column(Integer, nullable=True)
-    start_date = Column(DateTime, nullable=True)
-    end_date = Column(DateTime, nullable=True)
-    st_asgeojson = Column(JSON, nullable=True)
-    scaled_vol_1 = Column(NUMERIC, nullable=True)
-    span_day = Column(Integer)
-    span_hour = Column(Integer, nullable=True)
-    tfidf_bigrams = Column(JSON, nullable=True)
-    tfidf_unigrams = Column(JSON, nullable=True)
-
-    # Constructor
-
-    def __repr__(self):
-        return "<Tweet(stdbscan_id='{}', start_date='{}', end_date={}, st_asgeojson={}, scaled_vol_1={}, span_day={}, span_hour={}, tfidf_bigrams={}, tfidf_unigrams={})>".format(self.stdbscan_id, self.start_date, self.end_date, self.st_asgeojson, self.scaled_vol_1, self.span_day, self.span_hour, self.tfidf_bigrams, self.tfidf_unigrams)
-
-    def as_dict(self):
-
-        as_dict = {'stdbscan_id': self.stdbscan_id,
-                   'start_date': self.start_date,
-                   'end_date': self.end_date,
-                   'st_asgeojson': self.st_asgeojson,
-                   'scaled_vol_1': self.scaled_vol_1,
-                   'span_day': self.span_day,
-                   'span_hour': self.span_hours,
-                   'tfidf_bigrams': self.tfidf_bigrams,
-                   'tfidf_unigrams': self.tfidf_unigrams
-
-                   }
-
-        return as_dict
