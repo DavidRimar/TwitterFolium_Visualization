@@ -4,9 +4,9 @@ from TweetCrawler import *
 from config import *
 import pandas as pd
 import numpy as np
-from ModelBristol import *
-from ModelFishNet import *
-from ModelGrids import *
+from models.ModelBristol import *
+from models.ModelFishNet import *
+from models.ModelGrids import *
 from utils import *
 import matplotlib.pyplot as plt
 import matplotlib as mpl
