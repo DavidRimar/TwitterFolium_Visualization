@@ -1,0 +1,22 @@
+{
+  "name": "twitterfolium_visualization",
+  "version": "1.0.0",
+  "description": "The project displays Leaflet.JS Maps of Twitter data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidRimar/TwitterFolium_Visualization.git"
+  },
+  "author": "David Rimar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DavidRimar/TwitterFolium_Visualization/issues"
+  },
+  "homepage": "https://github.com/DavidRimar/TwitterFolium_Visualization#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
