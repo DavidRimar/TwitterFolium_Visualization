@@ -14,7 +14,7 @@ the 'Bristol riots' event in the PostgreSQL.
 """
 
 
-class BristolFishnet_11_5(Base):
+class Fishnet_11_5(Base):
     __tablename__ = 'fishnet_11_5_sem'
     id = Column(Integer, primary_key=True)  # Auto-generated ID
     spat_temp_id = Column(Integer)
@@ -65,7 +65,7 @@ class BristolFishnet_11_5(Base):
         return as_dict
 
 
-class BristolFishnet_88_40(Base):
+class Fishnet_88_40(Base):
     __tablename__ = 'fishnet_88_40_sem'
     id = Column(Integer, primary_key=True)  # Auto-generated ID
     spat_temp_id = Column(Integer)
@@ -124,7 +124,7 @@ class BristolFishnet_88_40(Base):
         return as_dict
 
 
-class BristolDBSCAN_004_5_SEM(Base):
+class DBSCAN_004_5_SEM(Base):
     __tablename__ = 'dbscan_004_5_sem'
     id = Column(Integer, primary_key=True)  # Auto-generated ID
     spat_temp_id = Column(Integer)

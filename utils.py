@@ -22,61 +22,56 @@ def get_word_string(dictionary):
 
 def create_timestamped_geojson_polygons_fishnet(df, tfidf, volume):
 
-    # new_df = scale_number(0, 1, df)
-
     features = []
 
     for _, row in df.iterrows():
 
-        # get the words to display
-        words = get_word_string(row[tfidf])
-
         # get color
         norm_vol = float("{:.12f}".format(row[volume]))
-        color = plt.cm.Reds(norm_vol)
-        color = mpl.colors.to_hex(color)
 
-        # date_string
-        # date_string = str(row['time_day'])
-        date_string = pd.to_datetime(row['time_day'], unit='d').__str__()
+        # if norm vol is not 0
+        if norm_vol > 0:
 
-        # print("day: ", date_string)
+            # get the words to display
+            words = get_word_string(row[tfidf])
 
-        feature = {
-            'type': 'Feature',
-            'geometry': row["st_asgeojson"],
-            'properties': {
-                'time': date_string,
-                'style': {'color': 'blue',
-                          # 'width': 1,
-                          'fillColor': color,
-                          'fillOpacity': 0.59},
-                'label': words,
+            color = plt.cm.Reds(norm_vol)
+            color = mpl.colors.to_hex(color)
+            date_string = pd.to_datetime(row['time_day'], unit='d').__str__()
+
+            # create GeoJSON feature
+            feature = {
+                'type': 'Feature',
+                'geometry': row["st_asgeojson"],
+                'properties': {
+                    'time': date_string,
+                    'style': {'color': 'blue',
+                              'fillColor': color,
+                              'fillOpacity': 0.59},
+                    'label': words,
+                }
             }
-        }
 
-        # add feature to features
-        features.append(feature)
-
-    print("featureset:", features)
+            # add feature to features
+            features.append(feature)
 
     return features
 
 
-def create_timestamped_geojson_polygons_dbscan(df, tfidf_results):
+def create_timestamped_geojson_polygons_dbscan(df, tfidf_results, norm_volume):
 
     features = []
 
     for _, row in df.iterrows():
 
         # if scaled vols are not null
-        if (row['scaled_vol_06'] is not None and row['st_asgeojson']['type'] == 'Polygon'):
+        if (row[norm_volume] > 0 and row['st_asgeojson']['type'] == 'Polygon'):
 
             # get the words to display
             words = get_word_string(row[tfidf_results])
 
             # get color
-            norm_vol = float("{:.12f}".format(row['scaled_vol_06']))
+            norm_vol = float("{:.12f}".format(row[norm_volume]))
             color = plt.cm.Reds(norm_vol)
             color = mpl.colors.to_hex(color)
 
@@ -111,13 +106,14 @@ def create_timestamped_geojson_polygons_stdbscan(df, tfidf_results, time_interva
     for _, row in df.iterrows():
 
         # if scaled vols are not null
-        if (row['st_asgeojson']['type'] == 'Polygon'):
+        if (row['normalized_volumes'] > 0 and row['st_asgeojson']['type'] == 'Polygon'):
 
             # get the words to display
             words = get_word_string(row[tfidf_results])
 
             # get color
-            norm_vol = float("{:.12f}".format(row['scaled_vol_1']))
+            norm_vol = float("{:.12f}".format(
+                row['normalized_volumes']))  # 'scaled_vol_06'
             color = plt.cm.Reds(norm_vol)
             color = mpl.colors.to_hex(color)
 

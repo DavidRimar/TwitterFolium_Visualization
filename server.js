@@ -29,12 +29,12 @@ const runServer = () => {
   });
 
   app.get('/map4_fishnet_textcat_pure_intraspace', (req, res) => {
-    res.sendFile('./maps/Map_4_fishnet_textcat_pure(intraspace).html', { root: __dirname });
+    res.sendFile('./maps/Map_4_fishnet_pure_textcat(normalized).html', { root: __dirname });
   });
 
-  app.get('/map4_fishnet_textcat_pure_normalized', (req, res) => {
-    res.sendFile('./maps/Map_4B_fishnet_textcat_pure(normalized).html', { root: __dirname });
-  });
+  //app.get('/map4_fishnet_textcat_pure_normalized', (req, res) => {
+  //  res.sendFile('./maps/Map_4B_fishnet_textcat_pure(normalized).html', { root: __dirname });
+  //});
 
   app.get('/map5_textcat_stdbscan_bigrams', (req, res) => {
     res.sendFile('./maps/Map_5_textcat_stdbscan_bigrams.html', { root: __dirname });
