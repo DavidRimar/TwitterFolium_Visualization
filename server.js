@@ -28,7 +28,7 @@ const runServer = () => {
     res.sendFile('./maps/Map_3_dbscan_fishnet_bigrams.html', { root: __dirname });
   });
 
-  app.get('/map4_fishnet_textcat_pure_intraspace', (req, res) => {
+  app.get('/map4_fishnet_pure_textcat_normalized', (req, res) => {
     res.sendFile('./maps/Map_4_fishnet_pure_textcat(normalized).html', { root: __dirname });
   });
 
